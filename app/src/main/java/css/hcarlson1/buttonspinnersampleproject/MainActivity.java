@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -15,12 +16,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static css.hcarlson1.buttonspinnersampleproject.R.id.spinnerXML;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView textViewDisplay;
     Button button_2;
     Button button_3;
     Spinner javaSpinner;
+    Spinner spinnerXML;
+    Spinner spinnerCustom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,30 @@ public class MainActivity extends AppCompatActivity {
         javaSpinner.setAdapter(itemsAdapter);
 
         // ============================================
+        javaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                textViewDisplay.setText("Spinner Java selected : "+ parent.getSelectedItem().toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //Another interface callback
+            }
+        });
+        //--------------------------------------
+        spinnerXML = (Spinner) findViewById(R.id.spinnerXML);
+        spinnerXML.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                textViewDisplay.setText("Spinner XML selected : "+ parent.getSelectedItem().toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //Another interface callback
+            }
+        });
+        // ============================================
+
         button_3 = (Button) findViewById(R.id.button3); //method 3. everything put into here
         button_3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -59,6 +88,23 @@ public class MainActivity extends AppCompatActivity {
                 textViewDisplay.setText("Button Click 3 method called");
             }
         });
+        // ============================================
+        spinnerCustom = (Spinner) findViewById(R.id.spinnerCustom);
+        ArrayList<Planet> planetList = new ArrayList<Planet>();
+        // planet data from http://www.enchantedlearning.com/subjects/astronomy/planets/
+        planetList.add(new Planet("Mercury", 57.9, 4800.0));
+        planetList.add(new Planet("Venus", 108.2, 12104.0));
+        planetList.add(new Planet("Mars", 227.9, 6787.0));
+        planetList.add(new Planet("Mars2", 227.9, 6787.0));
+        planetList.add(new Planet("Mars3", 227.9, 6787.0));
+        planetList.add(new Planet("Mars4", 227.9, 6787.0));
+        planetList.add(new Planet("Mars5", 227.9, 6787.0));
+        planetList.add(new Planet("Mars6", 227.9, 6787.0));
+
+        PlanetAdapter planetAdapter =
+                new PlanetAdapter(this, android.R.layout.simple_list_item_1, planetList);
+        //planetAdapter.setDropDownViewResource(android.R.layout.);
+        spinnerCustom.setAdapter(planetAdapter);
         // ============================================
 
 
